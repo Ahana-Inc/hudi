@@ -18,6 +18,7 @@
 
 package org.apache.hudi.hive;
 
+import org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat;
 import org.apache.hudi.common.model.HoodieFileFormat;
 import org.apache.hudi.common.model.HoodieTableType;
 import org.apache.hudi.common.util.Option;
@@ -261,7 +262,8 @@ public class HiveSyncTool extends HoodieSyncTool implements AutoCloseable {
     if (!tableExists) {
       LOG.info("Hive table " + tableName + " is not found. Creating it");
       HoodieFileFormat baseFileFormat = HoodieFileFormat.valueOf(config.getStringOrDefault(META_SYNC_BASE_FILE_FORMAT).toUpperCase());
-      String inputFormatClassName = HoodieInputFormatUtils.getInputFormatClassName(baseFileFormat, useRealTimeInputFormat);
+//      String inputFormatClassName = HoodieInputFormatUtils.getInputFormatClassName(baseFileFormat, useRealTimeInputFormat);
+      String inputFormatClassName = MapredParquetInputFormat.class.getName();
 
       if (baseFileFormat.equals(HoodieFileFormat.PARQUET) && config.getBooleanOrDefault(HIVE_USE_PRE_APACHE_INPUT_FORMAT)) {
         // Parquet input format had an InputFormat class visible under the old naming scheme.

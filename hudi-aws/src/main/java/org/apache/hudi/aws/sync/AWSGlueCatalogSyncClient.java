@@ -251,6 +251,7 @@ public class AWSGlueCatalogSyncClient extends HoodieSyncClient {
       params.put("EXTERNAL", "TRUE");
     }
     params.putAll(tableProperties);
+    params.put("presto_table_type", "hudi");
 
     try {
       Map<String, String> mapSchema = parquetSchemaToMapSchema(storageSchema, config.getBoolean(HIVE_SUPPORT_TIMESTAMP_TYPE), false);
